@@ -49,3 +49,6 @@ Collate:
     'analyze-growth.R'
     'analyze-social-behavior.R'
     'summarize-social-behavior.R'
+    'analyze-diversity.R'
+    'analyze-biofilm-sequence.R'
+    'analyze-stability.R'
