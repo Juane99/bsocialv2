@@ -1,0 +1,275 @@
+---
+title: "Analyzing Microbial Social Behavior with bsocial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Analyzing Microbial Social Behavior with bsocial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+## Introduction
+
+The **bsocial** package provides an S4 class and methods for analyzing microbial
+social behavior in bacterial consortia. Starting from growth curve data, the
+package classifies strains as cooperators, cheaters, or neutrals based on their
+effect on consortium fitness. It also quantifies diversity effects, consortium
+stability, and finds optimal biofilm assembly sequences.
+
+The analysis pipeline supports two workflows:
+
+- **Curated workflow** -- start from pre-processed growth parameters (LogPhase,
+  NGen, GR) that were computed externally.
+- **Raw workflow** -- start from plate reader CSVs, preprocess the curves, then
+  extract growth parameters automatically.
+
+This vignette demonstrates the curated workflow end-to-end and gives a brief
+overview of the raw workflow.
+
+## Curated Workflow
+
+### Loading example data
+
+The package ships with example data in `inst/extdata/`. Two files are needed for
+the curated workflow:
+
+- `consortia.csv` -- a presence/absence matrix indicating which strains are in
+  each consortium.
+- `curated_MTBE.csv` -- pre-processed growth parameters (Consortia, LogPhase,
+  NGen, GR).
+
+```{r load-data}
+library(bsocial)
+
+# Read the consortia presence/absence matrix
+consortia <- read.csv(
+  system.file("extdata", "consortia.csv", package = "bsocial")
+)
+if (!"Consortia" %in% colnames(consortia)) colnames(consortia)[1] <- "Consortia"
+
+# Read the curated (pre-processed) growth parameters
+curated <- read.csv(
+  system.file("extdata", "curated_MTBE.csv", package = "bsocial")
+)
+if (!"Consortia" %in% colnames(curated)) colnames(curated)[1] <- "Consortia"
+
+head(consortia)
+head(curated)
+```
+
+### Creating the bsocial object
+
+Create a new `bsocial` object, set the project identifier, define the strain
+names, and populate the raw-data slots:
+
+```{r create-object}
+obj <- new("bsocial")
+obj@id_proyecto <- "MTBE_example"
+
+# Strain names are all columns in consortia except "Consortia"
+obj@cepas_seleccionadas <- setdiff(colnames(consortia), "Consortia")
+
+# Populate the raw-data list
+obj@datos_crudos <- list(
+  consortia = consortia,
+  curated   = curated
+)
+```
+
+### Step 1: Transform curated data
+
+`transform_curated_data()` joins the curated growth parameters with the
+consortia presence/absence matrix and stores the result in `datos_procesados`:
+
+```{r transform-curated}
+obj <- transform_curated_data(obj)
+head(obj@datos_procesados)
+```
+
+### Step 2: Analyze growth
+
+`analyze_growth()` creates a scatter plot of LogPhase vs NGen colored by
+consortium diversity (number of strains), and generates top-10 tables ranked by
+NGen and GR:
+
+```{r analyze-growth}
+obj <- analyze_growth(obj)
+
+# View the scatter plot
+obj@graficos$growth_scatter
+
+# Top 10 consortia by number of generations
+obj@resultados_analisis$best_10_ngen
+```
+
+### Step 3: Analyze social behavior
+
+`analyze_social_behavior()` compares each strain's fitness in consortia versus
+its monoculture baseline. It produces boxplots showing relative fitness split by
+whether each strain is present or absent:
+
+```{r analyze-social}
+obj <- analyze_social_behavior(obj)
+
+# Fitness boxplots (NGen and GR)
+obj@resultados_analisis$social_behavior$social_generations_plot
+obj@resultados_analisis$social_behavior$social_gr_plot
+```
+
+### Step 4: Classify strains
+
+`summarize_social_behavior()` uses pairwise t-tests and median comparisons to
+classify each strain as a cooperator (positive), cheater (negative), or neutral:
+
+```{r summarize-social}
+obj <- summarize_social_behavior(obj)
+
+# Classification based on number of generations
+obj@resultados_analisis$summary_gen
+
+# Classification based on growth rate
+obj@resultados_analisis$summary_gr
+```
+
+### Step 5: Analyze diversity effects
+
+`analyze_diversity()` examines the relationship between consortium diversity
+(number of strains) and fitness. It produces boxplots of relative fitness across
+diversity levels and a "top-k" analysis:
+
+```{r analyze-diversity}
+obj <- analyze_diversity(obj)
+
+# Diversity effect on fitness (NGen)
+obj@graficos$diversity_gen_plot
+
+# Diversity effect on fitness (GR)
+obj@graficos$diversity_gr_plot
+```
+
+### Step 6: Analyze stability
+
+`analyze_stability()` calculates how consistent growth metrics are across
+diversity levels. For curated data it groups consortia by diversity and produces
+violin plots:
+
+```{r analyze-stability}
+obj <- analyze_stability(obj)
+
+# Stability violin plots
+obj@graficos$stability_ngen_plot
+obj@graficos$stability_gr_plot
+```
+
+### Step 7: Find biofilm assembly sequences
+
+`analyze_biofilm_sequence()` builds a directed graph of consortium assembly
+paths. It finds shortest paths from monocultures to the full consortium, based
+on increasing diversity and fitness:
+
+```{r analyze-biofilm}
+obj <- analyze_biofilm_sequence(obj)
+
+# The paths are stored as named lists
+str(obj@resultados_analisis$biofilm_gen_paths, max.level = 2)
+
+# Plot the assembly graph (base R plot)
+obj@graficos$biofilm_gen_plot_func()
+```
+
+## Raw Workflow (Overview)
+
+When working with raw plate reader data the workflow starts with CSV files
+exported from the plate reader. Each plate CSV contains OD readings over time.
+The six example plates are included in the package (`plate1.csv` through
+`plate6.csv`).
+
+The following code is **not executed** here because it requires raw plate files
+with specific formatting. It illustrates the additional preprocessing steps.
+
+```{r raw-workflow, eval = FALSE}
+library(bsocial)
+library(readr)
+
+obj <- new("bsocial")
+obj@id_proyecto <- "raw_example"
+
+# Read consortia matrix
+consortia <- read.csv(
+  system.file("extdata", "consortia.csv", package = "bsocial")
+)
+if (!"Consortia" %in% colnames(consortia)) colnames(consortia)[1] <- "Consortia"
+
+obj@cepas_seleccionadas <- setdiff(colnames(consortia), "Consortia")
+
+# Read plate CSVs
+plate_files <- paste0("plate", 1:6, ".csv")
+plates <- lapply(plate_files, function(f) {
+  read_csv(system.file("extdata", f, package = "bsocial"), show_col_types = FALSE)
+})
+
+obj@datos_crudos <- list(
+  consortia = consortia,
+  plates    = plates,
+  type      = "raw"
+)
+
+# Step 1: Preprocess raw data (background correction + replicate aggregation)
+#   groups    - integer vector assigning plates to replicate groups
+#   bg_type   - "blank" (subtract blank well) or "threshold" (subtract OD value)
+#   bg_param  - blank well ID (for "blank") or numeric threshold (for "threshold")
+obj <- transform_raw_data(obj,
+  groups   = c(1, 1, 2, 2, 3, 3),
+  bg_type  = "blank",
+  bg_param = "BLANK"
+)
+
+# Step 2: Calculate growth parameters
+obj <- calculate_growth_params(obj, method = "growthcurver")
+
+# Optional: visualize processed curves
+obj <- plot_processed_curves(obj)
+obj@graficos$processed_curves_plot
+
+# Step 3 onwards: same pipeline as curated workflow
+obj <- analyze_growth(obj)
+obj <- analyze_social_behavior(obj)
+obj <- summarize_social_behavior(obj)
+obj <- analyze_diversity(obj)
+obj <- analyze_stability(obj)
+obj <- analyze_biofilm_sequence(obj)
+```
+
+## Accessing Results
+
+After running the full pipeline, results are stored in the `bsocial` object's
+slots. Here is a summary of key outputs:
+
+| Slot | Key | Description |
+|------|-----|-------------|
+| `datos_procesados` | (data frame) | Merged consortia + growth parameters |
+| `resultados_analisis` | `best_10_ngen` | Top 10 consortia by NGen |
+| `resultados_analisis` | `best_10_gr` | Top 10 consortia by GR |
+| `resultados_analisis` | `social_behavior` | Fitness comparison data and plots |
+| `resultados_analisis` | `summary_gen` | Strain classification (NGen) |
+| `resultados_analisis` | `summary_gr` | Strain classification (GR) |
+| `resultados_analisis` | `diversity_gen_table` | Diversity effect matrix (NGen) |
+| `resultados_analisis` | `diversity_gr_table` | Diversity effect matrix (GR) |
+| `resultados_analisis` | `stability_cv_data` | Stability CV data |
+| `resultados_analisis` | `biofilm_gen_paths` | Assembly paths (NGen) |
+| `resultados_analisis` | `biofilm_gr_paths` | Assembly paths (GR) |
+| `graficos` | `growth_scatter` | LogPhase vs NGen scatter (ggplot) |
+| `graficos` | `diversity_gen_plot` | Diversity boxplot, NGen (ggplot) |
+| `graficos` | `diversity_gr_plot` | Diversity boxplot, GR (ggplot) |
+| `graficos` | `stability_ngen_plot` | Stability violin, NGen (ggplot) |
+| `graficos` | `stability_gr_plot` | Stability violin, GR (ggplot) |
+| `graficos` | `biofilm_gen_plot_func` | Assembly graph plot function (NGen) |
+| `graficos` | `biofilm_gr_plot_func` | Assembly graph plot function (GR) |
