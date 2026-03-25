@@ -24,6 +24,12 @@ setMethod("calculate_growth_params", "bsocial", function(.Object, method = "grow
   if (!method %in% c("growthcurver", "grofit")) {
     stop("Invalid method. Use 'growthcurver' or 'grofit'.")
   }
+  if (method == "grofit" && !requireNamespace("grofit", quietly = TRUE)) {
+    stop("The 'grofit' package is required for method='grofit' but is not installed. ",
+         "grofit has been archived from CRAN. Install it with:\n",
+         "  install.packages(\"https://cran.r-project.org/src/contrib/Archive/grofit/grofit_1.1.1-1.tar.gz\", repos = NULL, type = \"source\")\n",
+         "Or use method='growthcurver' instead.")
+  }
   if (is.null(curve_map) || !"curve_id" %in% colnames(curve_map)) {
     stop("curve_map not found. Please re-run Step 2.")
   }

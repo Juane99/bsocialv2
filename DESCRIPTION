@@ -2,8 +2,10 @@ Package: bsocial
 Title: Analysis of Microbial Social Behavior in Bacterial Consortia
 Version: 0.1.0
 Authors@R: c(
-    person("Rocio", "Garcia-Ramirez", role = c("aut")),
-    person("Juan", "Esquivel", role = c("aut", "cre"), email = "TBD@email.com")
+    person("Maria", "Garcia Toledo", role = c("aut")),
+    person("Juan Emilio", "Martinez Manjon", role = c("aut", "cre"), email = "juanemartinez999@hotmail.com"),
+    person("Jessica", "Purswani", role = c("aut")),
+    person("Rocio", "Romero Zaliz", role = c("aut"))
   )
 Description: Provides an S4 class and methods for analyzing microbial social
     behavior in bacterial consortia. Includes growth parameter extraction,
@@ -11,6 +13,8 @@ Description: Provides an S4 class and methods for analyzing microbial social
     diversity effect analysis, consortium assembly path finding, and
     stability analysis via coefficient of variation.
 License: MIT + file LICENSE
+URL: https://github.com/Juane99/bsocial
+BugReports: https://github.com/Juane99/bsocial/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

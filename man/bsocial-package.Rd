@@ -8,12 +8,23 @@
 \description{
 Provides an S4 class and methods for analyzing microbial social behavior in bacterial consortia. Includes growth parameter extraction, social behavior classification (cooperators/cheaters/neutrals), diversity effect analysis, consortium assembly path finding, and stability analysis via coefficient of variation.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/Juane99/bsocial}
+  \item Report bugs at \url{https://github.com/Juane99/bsocial/issues}
+}
+
+}
 \author{
-\strong{Maintainer}: Juan Esquivel \email{TBD@email.com}
+\strong{Maintainer}: Juan Emilio Martinez Manjon \email{juanemartinez999@hotmail.com}
 
 Authors:
 \itemize{
-  \item Rocio Garcia-Ramirez
+  \item Maria Garcia Toledo
+  \item Juan Emilio Martinez Manjon
+  \item Jessica Purswani
+  \item Rocio Romero Zaliz
 }
 
 }

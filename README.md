@@ -18,11 +18,11 @@ pipeline:
 ## Installation
 
 ```r
-# Install from GitHub (once published)
-# remotes::install_github("username/bsocial")
+# Install from GitHub
+remotes::install_github("Juane99/bsocial")
 
-# Install from local source
-devtools::install("path/to/bsocial")
+# Or install from CRAN (once accepted)
+# install.packages("bsocial")
 ```
 
 ## Quick Start
