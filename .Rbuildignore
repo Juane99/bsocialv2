@@ -5,3 +5,4 @@
 ^docs$
 ^cran-comments\.md$
 ^inst/test_full_flow\.R$
+^CRAN-SUBMISSION$
