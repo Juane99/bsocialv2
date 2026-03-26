@@ -1,4 +1,4 @@
-# bsocial 0.1.0
+# bsocialv2 0.1.0
 
 * Initial CRAN release.
 * S4 class `bsocial` with six slots for organizing consortia analysis data.

@@ -1,4 +1,4 @@
-#' Log Messages for bsocial Operations
+#' Log Messages for bsocialv2 Operations
 #'
 #' Internal logging utility that outputs timestamped messages to the console.
 #'

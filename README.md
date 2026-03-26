@@ -1,10 +1,10 @@
-# bsocial
+# bsocialv2
 
 Analysis of Microbial Social Behavior in Bacterial Consortia
 
 ## Overview
 
-`bsocial` provides an S4 class and methods for analyzing microbial social
+`bsocialv2` provides an S4 class and methods for analyzing microbial social
 behavior in bacterial consortia. The package implements a complete analysis
 pipeline:
 
@@ -22,13 +22,13 @@ pipeline:
 remotes::install_github("Juane99/bsocial")
 
 # Or install from CRAN (once accepted)
-# install.packages("bsocial")
+# install.packages("bsocialv2")
 ```
 
 ## Quick Start
 
 ```r
-library(bsocial)
+library(bsocialv2)
 
 # Create a bsocial object
 obj <- new("bsocial")

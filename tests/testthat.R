@@ -1,4 +1,4 @@
 library(testthat)
-library(bsocial)
+library(bsocialv2)
 
-test_check("bsocial")
+test_check("bsocialv2")

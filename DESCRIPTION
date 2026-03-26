@@ -1,4 +1,4 @@
-Package: bsocial
+Package: bsocialv2
 Title: Analysis of Microbial Social Behavior in Bacterial Consortia
 Version: 0.1.0
 Authors@R: c(

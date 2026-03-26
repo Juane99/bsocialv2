@@ -2,7 +2,7 @@
 % Please edit documentation in R/bsocial-log.R
 \name{bsocial_log}
 \alias{bsocial_log}
-\title{Log Messages for bsocial Operations}
+\title{Log Messages for bsocialv2 Operations}
 \usage{
 bsocial_log(level = "INFO", ..., .indent = 0)
 }

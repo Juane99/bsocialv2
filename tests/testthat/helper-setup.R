@@ -4,8 +4,8 @@
 create_curated_test_object <- function() {
   obj <- new("bsocial")
 
-  consortia_path <- system.file("extdata", "consortia.csv", package = "bsocial")
-  curated_path <- system.file("extdata", "curated_MTBE.csv", package = "bsocial")
+  consortia_path <- system.file("extdata", "consortia.csv", package = "bsocialv2")
+  curated_path <- system.file("extdata", "curated_MTBE.csv", package = "bsocialv2")
 
   consortia <- readr::read_csv(consortia_path, show_col_types = FALSE)
   curated <- readr::read_csv(curated_path, show_col_types = FALSE)
@@ -28,7 +28,7 @@ create_curated_test_object <- function() {
 create_raw_test_object <- function() {
   obj <- new("bsocial")
 
-  consortia_path <- system.file("extdata", "consortia.csv", package = "bsocial")
+  consortia_path <- system.file("extdata", "consortia.csv", package = "bsocialv2")
   consortia <- readr::read_csv(consortia_path, show_col_types = FALSE)
 
   # Rename unnamed first column to Consortia (CSV row names)
@@ -36,7 +36,7 @@ create_raw_test_object <- function() {
 
   plates <- list()
   for (i in 1:6) {
-    plate_path <- system.file("extdata", paste0("plate", i, ".csv"), package = "bsocial")
+    plate_path <- system.file("extdata", paste0("plate", i, ".csv"), package = "bsocialv2")
     if (file.exists(plate_path) && nchar(plate_path) > 0) {
       # Read header to extract time column names (skip first 4 metadata cols)
       first_line <- readLines(plate_path, n = 1)

@@ -1,8 +1,8 @@
 ---
-title: "Analyzing Microbial Social Behavior with bsocial"
+title: "Analyzing Microbial Social Behavior with bsocialv2"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Analyzing Microbial Social Behavior with bsocial}
+  %\VignetteIndexEntry{Analyzing Microbial Social Behavior with bsocialv2}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-The **bsocial** package provides an S4 class and methods for analyzing microbial
+The **bsocialv2** package provides an S4 class and methods for analyzing microbial
 social behavior in bacterial consortia. Starting from growth curve data, the
 package classifies strains as cooperators, cheaters, or neutrals based on their
 effect on consortium fitness. It also quantifies diversity effects, consortium
@@ -47,17 +47,17 @@ the curated workflow:
   NGen, GR).
 
 ```{r load-data}
-library(bsocial)
+library(bsocialv2)
 
 # Read the consortia presence/absence matrix
 consortia <- read.csv(
-  system.file("extdata", "consortia.csv", package = "bsocial")
+  system.file("extdata", "consortia.csv", package = "bsocialv2")
 )
 if (!"Consortia" %in% colnames(consortia)) colnames(consortia)[1] <- "Consortia"
 
 # Read the curated (pre-processed) growth parameters
 curated <- read.csv(
-  system.file("extdata", "curated_MTBE.csv", package = "bsocial")
+  system.file("extdata", "curated_MTBE.csv", package = "bsocialv2")
 )
 if (!"Consortia" %in% colnames(curated)) colnames(curated)[1] <- "Consortia"
 
@@ -196,7 +196,7 @@ The following code is **not executed** here because it requires raw plate files
 with specific formatting. It illustrates the additional preprocessing steps.
 
 ```{r raw-workflow, eval = FALSE}
-library(bsocial)
+library(bsocialv2)
 library(readr)
 
 obj <- new("bsocial")
@@ -204,7 +204,7 @@ obj@id_proyecto <- "raw_example"
 
 # Read consortia matrix
 consortia <- read.csv(
-  system.file("extdata", "consortia.csv", package = "bsocial")
+  system.file("extdata", "consortia.csv", package = "bsocialv2")
 )
 if (!"Consortia" %in% colnames(consortia)) colnames(consortia)[1] <- "Consortia"
 
@@ -213,7 +213,7 @@ obj@cepas_seleccionadas <- setdiff(colnames(consortia), "Consortia")
 # Read plate CSVs
 plate_files <- paste0("plate", 1:6, ".csv")
 plates <- lapply(plate_files, function(f) {
-  read_csv(system.file("extdata", f, package = "bsocial"), show_col_types = FALSE)
+  read_csv(system.file("extdata", f, package = "bsocialv2"), show_col_types = FALSE)
 })
 
 obj@datos_crudos <- list(
