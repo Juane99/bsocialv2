@@ -19,7 +19,7 @@ pipeline:
 
 ```r
 # Install from GitHub
-remotes::install_github("Juane99/bsocial")
+remotes::install_github("Juane99/bsocialv2")
 
 # Or install from CRAN (once accepted)
 # install.packages("bsocialv2")

@@ -13,8 +13,8 @@ Description: Provides an S4 class and methods for analyzing microbial social
     diversity effect analysis, consortium assembly path finding, and
     stability analysis via coefficient of variation.
 License: MIT + file LICENSE
-URL: https://github.com/Juane99/bsocial
-BugReports: https://github.com/Juane99/bsocial/issues
+URL: https://github.com/Juane99/bsocialv2
+BugReports: https://github.com/Juane99/bsocialv2/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
