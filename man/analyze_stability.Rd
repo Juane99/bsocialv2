@@ -9,6 +9,11 @@ analyze_stability(.Object)
 \arguments{
 \item{.Object}{A \linkS4class{bsocial} object.}
 }
+\value{
+The modified \linkS4class{bsocial} object with coefficient of variation
+data in \code{resultados_analisis$stability_cv_data} and violin plots in
+\code{graficos$stability_ngen_plot} and \code{graficos$stability_gr_plot}.
+}
 \description{
 Analyze Consortium Stability
 }

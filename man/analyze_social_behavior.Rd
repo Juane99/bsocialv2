@@ -9,6 +9,11 @@ analyze_social_behavior(.Object)
 \arguments{
 \item{.Object}{A \linkS4class{bsocial} object.}
 }
+\value{
+The modified \linkS4class{bsocial} object with
+\code{resultados_analisis$social_behavior} containing fitness comparison data,
+boxplot objects for NGen and GR, and a success flag.
+}
 \description{
 Analyze Social Behavior (Fitness Effects)
 }

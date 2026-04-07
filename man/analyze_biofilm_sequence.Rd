@@ -9,6 +9,11 @@ analyze_biofilm_sequence(.Object)
 \arguments{
 \item{.Object}{A \linkS4class{bsocial} object.}
 }
+\value{
+The modified \linkS4class{bsocial} object with assembly path lists in
+\code{resultados_analisis$biofilm_gen_paths} and \code{resultados_analisis$biofilm_gr_paths},
+and plot functions in \code{graficos}.
+}
 \description{
 Analyze Biofilm Assembly Sequences
 }

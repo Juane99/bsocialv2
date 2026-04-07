@@ -9,6 +9,10 @@ plot_processed_curves(.Object)
 \arguments{
 \item{.Object}{A \linkS4class{bsocial} object.}
 }
+\value{
+A \code{\link[ggplot2]{ggplot}} object showing faceted line plots of
+mean growth curves (optical density over time) grouped by experimental condition.
+}
 \description{
 Plot Preprocessed Growth Curves
 }

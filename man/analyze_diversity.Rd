@@ -9,6 +9,11 @@ analyze_diversity(.Object)
 \arguments{
 \item{.Object}{A \linkS4class{bsocial} object.}
 }
+\value{
+The modified \linkS4class{bsocial} object with diversity boxplots in
+\code{graficos} and relative fitness tables in \code{resultados_analisis}
+(keyed by diversity level and top-k strain ranking).
+}
 \description{
 Analyze Diversity Effect on Fitness
 }

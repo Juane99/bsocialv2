@@ -11,6 +11,12 @@ summarize_social_behavior(.Object, ...)
 
 \item{...}{Additional arguments.}
 }
+\value{
+The modified \linkS4class{bsocial} object with
+\code{resultados_analisis$summary_gen} and \code{resultados_analisis$summary_gr},
+each a list with character vectors \code{positives} (cooperators),
+\code{negatives} (cheaters), and \code{neutrals}.
+}
 \description{
 Classify Strains as Cooperators, Cheaters, or Neutrals
 }

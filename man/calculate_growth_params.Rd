@@ -11,6 +11,11 @@ calculate_growth_params(.Object, ...)
 
 \item{...}{Additional arguments (method).}
 }
+\value{
+The modified \linkS4class{bsocial} object with \code{datos_procesados} populated
+as a data frame containing consortia identifiers, strain presence/absence, and
+growth parameters (LogPhase, NGen, GR) fitted from the preprocessed curves.
+}
 \description{
 Calculate Growth Parameters from Preprocessed Curves
 }

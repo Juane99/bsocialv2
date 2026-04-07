@@ -9,6 +9,11 @@ analyze_growth(.Object)
 \arguments{
 \item{.Object}{A \linkS4class{bsocial} object.}
 }
+\value{
+The modified \linkS4class{bsocial} object with a scatter plot stored in
+\code{graficos$growth_scatter} and top-10 ranking tables in
+\code{resultados_analisis$best_10_ngen} and \code{resultados_analisis$best_10_gr}.
+}
 \description{
 Analyze Growth Metrics
 }

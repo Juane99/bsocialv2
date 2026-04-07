@@ -11,6 +11,11 @@ transform_curated_data(.Object, ...)
 
 \item{...}{Additional arguments.}
 }
+\value{
+The modified \linkS4class{bsocial} object with \code{datos_procesados} populated
+as a data frame containing consortia identifiers, strain presence/absence, and
+growth parameters (LogPhase, NGen, GR).
+}
 \description{
 Import Pre-processed (Curated) Data
 }

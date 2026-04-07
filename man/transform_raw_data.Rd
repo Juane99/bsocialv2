@@ -11,6 +11,10 @@ transform_raw_data(.Object, ...)
 
 \item{...}{Additional arguments (groups, bg_type, bg_param).}
 }
+\value{
+The modified \linkS4class{bsocial} object with \code{resultados_analisis} populated
+with preprocessed growth curves, cycle times, curve mapping, and replicate statistics.
+}
 \description{
 Preprocess Raw Plate Reader Data
 }
