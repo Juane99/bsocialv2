@@ -23,11 +23,12 @@ setMethod("plot_processed_curves", "bsocial", function(.Object) {
   p <- ggplot2::ggplot(plot_df, ggplot2::aes(x = time, y = od, group = SampleID, color = factor(group_id))) +
     ggplot2::geom_line(alpha = 0.7) +
     viridis::scale_color_viridis(discrete = TRUE, name = "Exp. Group") +
+    ggplot2::scale_y_log10(n.breaks = 8) +
     ggplot2::labs(
       title = "Pre-processed Growth Curves",
       subtitle = "Each line represents a consortium averaged across its replicates.",
       x = "Time (seconds)",
-      y = "Optical Density (OD)"
+      y = "Optical Density (OD, log10)"
     ) +
     ggplot2::theme_minimal()
 
