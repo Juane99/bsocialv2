@@ -26,19 +26,7 @@ setMethod("analyze_growth", "bsocial", function(.Object) {
     stop("Strain columns missing in processed data.")
   }
 
-  df$n_cepas <- rowSums(!is.na(df[, strains, drop = FALSE]))
-
-  scatter_plot <- ggplot2::ggplot(df, ggplot2::aes(x = LogPhase, y = NGen, color = factor(n_cepas))) +
-    ggplot2::geom_point(size = 3, alpha = 0.8, na.rm = TRUE) +
-    ggplot2::labs(
-      title = "Growth: LogPhase vs Number of Generations",
-      x = "Log Phase (h)",
-      y = "Number of Generations",
-      color = "Num. strains"
-    ) +
-    ggplot2::theme_minimal()
-
-  .Object@graficos$growth_scatter <- scatter_plot
+  .Object@graficos$growth_scatter <- plot_growth_scatter(.Object, remove_outliers = FALSE)
 
   keep_cols <- intersect(c("Consortia", "group_id", "LogPhase", "NGen", "GR"), colnames(df))
   df2 <- df[, keep_cols, drop = FALSE]

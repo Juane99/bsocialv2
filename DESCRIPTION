@@ -49,6 +49,7 @@ Collate:
     'transform-curated-data.R'
     'calculate-growth-params.R'
     'plot-processed-curves.R'
+    'plot-growth-scatter.R'
     'analyze-growth.R'
     'analyze-social-behavior.R'
     'summarize-social-behavior.R'
