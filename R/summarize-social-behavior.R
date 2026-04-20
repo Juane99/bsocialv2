@@ -22,8 +22,12 @@ setMethod("summarize_social_behavior", "bsocial", function(.Object) {
     )
     empty_stats <- data.frame(
       strain         = cepas,
-      median_all     = NA_real_, median_not = NA_real_, median_present = NA_real_,
-      p_all_vs_not   = NA_real_, p_all_vs_pres = NA_real_, p_not_vs_pres = NA_real_,
+      median_all     = rep(NA_real_, nstrains),
+      median_not     = rep(NA_real_, nstrains),
+      median_present = rep(NA_real_, nstrains),
+      p_all_vs_not   = rep(NA_real_, nstrains),
+      p_all_vs_pres  = rep(NA_real_, nstrains),
+      p_not_vs_pres  = rep(NA_real_, nstrains),
       classification = rep("Neutral", nstrains),
       stringsAsFactors = FALSE
     )
@@ -59,8 +63,6 @@ setMethod("summarize_social_behavior", "bsocial", function(.Object) {
     if (is.null(data_for_boxplot) || nrow(data_for_boxplot) == 0) {
       return(empty_out)
     }
-
-    nr <- nrow(data_for_boxplot)
 
     list_anova <- list()
     for (i in seq_len(nstrains)) {

@@ -58,3 +58,24 @@ test_that("summarize_social_behavior rebuilds social plots with badge layers", {
   expect_true(has_text_layer(p_gen))
   expect_true(has_text_layer(p_gr))
 })
+
+test_that("summarize_social_behavior handles the empty/failure branch", {
+  obj <- new("bsocial")
+  obj@cepas_seleccionadas <- c("StrainA", "StrainB", "StrainC")
+  obj@resultados_analisis$social_behavior <- list(success = FALSE,
+                                                   message = "forced failure")
+
+  out <- summarize_social_behavior(obj)
+
+  for (slot_name in c("stats_gen", "stats_gr")) {
+    tbl <- out@resultados_analisis[[slot_name]]
+    expect_s3_class(tbl, "data.frame")
+    expect_equal(nrow(tbl), 3L)
+    expect_setequal(
+      colnames(tbl),
+      c("strain", "median_all", "median_not", "median_present",
+        "p_all_vs_not", "p_all_vs_pres", "p_not_vs_pres", "classification")
+    )
+    expect_true(all(tbl$classification == "Neutral"))
+  }
+})
