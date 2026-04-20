@@ -95,7 +95,7 @@ setGeneric("analyze_social_behavior", function(.Object) standardGeneric("analyze
 #' @param .Object A \linkS4class{bsocial} object.
 #' @return The modified \linkS4class{bsocial} object with diversity boxplots in
 #'   \code{graficos} and relative fitness tables in \code{resultados_analisis}
-#'   (keyed by diversity level and top-k strain ranking).
+#'   (keyed by diversity level).
 #' @export
 setGeneric("analyze_diversity", function(.Object) standardGeneric("analyze_diversity"))
 

@@ -1,8 +1,8 @@
 #' Analyze Diversity Effect on Fitness
 #'
 #' Analyzes the relationship between consortium diversity (number of strains)
-#' and fitness. Compares fitness across diversity levels and identifies effects
-#' of including top-ranked strains.
+#' and fitness. Computes relative fitness by comparing each consortium's metric
+#' against the best monoculture reference.
 #'
 #' @param .Object A \linkS4class{bsocial} object after \code{analyze_social_behavior()} has been called.
 #' @return The modified \linkS4class{bsocial} object with diversity analysis in \code{graficos} and \code{resultados_analisis}.

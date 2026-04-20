@@ -7,6 +7,10 @@ test_that("analyze_diversity creates diversity plots and tables", {
   expect_true(!is.null(obj@graficos$diversity_gen_plot))
   expect_s3_class(obj@graficos$diversity_gen_plot, "ggplot")
   expect_true(!is.null(obj@resultados_analisis$diversity_gen_table))
+
+  expect_s3_class(obj@graficos$diversity_gr_plot, "ggplot")
+  expect_true(!is.null(obj@resultados_analisis$diversity_gr_table))
+  expect_equal(obj@graficos$diversity_gr_plot$labels$x, "Species richness in consortium")
 })
 
 test_that("analyze_diversity no longer produces Top-k slots", {
