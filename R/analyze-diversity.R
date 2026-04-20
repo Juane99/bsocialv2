@@ -53,8 +53,6 @@ setMethod("analyze_diversity", "bsocial", function(.Object) {
     empty <- data.frame()
     .Object@resultados_analisis$diversity_gen_table <- empty
     .Object@resultados_analisis$diversity_gr_table  <- empty
-    .Object@resultados_analisis$diversity_best_gen_table <- empty
-    .Object@resultados_analisis$diversity_best_gr_table  <- empty
     .Object@resultados_analisis$diversity_message <- msg
 
     label_msg <- paste(strwrap(msg, width = 70), collapse = "\n")
@@ -62,8 +60,6 @@ setMethod("analyze_diversity", "bsocial", function(.Object) {
       ggplot2::annotate("text", x = 0.5, y = 0.5, label = label_msg, hjust = 0.5, vjust = 0.5, size = 4) +
       ggplot2::theme_void()
     .Object@graficos$diversity_gr_plot <- .Object@graficos$diversity_gen_plot
-    .Object@graficos$diversity_best_gen_plot <- .Object@graficos$diversity_gen_plot
-    .Object@graficos$diversity_best_gr_plot  <- .Object@graficos$diversity_gen_plot
 
     return(.Object)
   }
@@ -86,7 +82,7 @@ setMethod("analyze_diversity", "bsocial", function(.Object) {
     ggplot2::ggplot(mx, ggplot2::aes(x = variable, y = value, fill = variable)) +
       ggplot2::geom_boxplot() +
       ggplot2::geom_hline(yintercept = 1, linetype = 5, color = "gray") +
-      ggplot2::labs(x = "Number of strains in consortium", y = ylab, fill = "Diversity") +
+      ggplot2::labs(x = "Species richness in consortium", y = ylab, fill = "Diversity") +
       ggplot2::theme_minimal() +
       ggplot2::theme(legend.position = "none")
   }
@@ -99,62 +95,6 @@ setMethod("analyze_diversity", "bsocial", function(.Object) {
 
   .Object@graficos$diversity_gen_plot <- plot_diversity_boxplot(div_gen, "Relative Fitness (Generations)")
   .Object@graficos$diversity_gr_plot  <- plot_diversity_boxplot(div_gr,  "Relative Fitness (Growth Rate)")
-
-  rank_strains <- function(metric_col) {
-    vals <- vapply(strains, function(s) {
-      rows <- mono_df[!is.na(mono_df[[s]]), , drop = FALSE]
-      stats::median(rows[[metric_col]], na.rm = TRUE)
-    }, numeric(1))
-    vals[!is.finite(vals)] <- -Inf
-    strains[order(vals, decreasing = TRUE)]
-  }
-
-  build_best_matrix <- function(metric_col, best_val, strain_rank) {
-    nr <- nrow(df)
-    n  <- length(strains)
-    out <- matrix(NA_real_, nrow = nr, ncol = n)
-
-    rank_pos <- stats::setNames(seq_along(strain_rank), strain_rank)
-    present_bool <- !is.na(df[, strains, drop = FALSE])
-
-    max_rank <- apply(present_bool, 1, function(r) {
-      present <- strains[r]
-      if (length(present) == 0) return(Inf)
-      max(rank_pos[present], na.rm = TRUE)
-    })
-
-    metric_vals <- df[[metric_col]]
-    ok_metric <- is.finite(metric_vals)
-
-    for (k in seq_len(n)) {
-      idx <- which(ok_metric & max_rank <= k)
-      out[idx, k] <- metric_vals[idx] / best_val
-    }
-    colnames(out) <- as.character(seq_len(n))
-    as.data.frame(out)
-  }
-
-  plot_best_boxplot <- function(mat, ylab) {
-    mx <- suppressMessages(reshape2::melt(mat, na.rm = TRUE))
-    ggplot2::ggplot(mx, ggplot2::aes(x = variable, y = value, fill = variable)) +
-      ggplot2::geom_boxplot() +
-      ggplot2::geom_hline(yintercept = 1, linetype = 5, color = "gray") +
-      ggplot2::labs(x = "Top-k strains considered", y = ylab, fill = "k") +
-      ggplot2::theme_minimal() +
-      ggplot2::theme(legend.position = "none")
-  }
-
-  rank_gen <- rank_strains("NGen")
-  rank_gr  <- rank_strains("GR")
-
-  best_gen <- build_best_matrix("NGen", best_ngen, rank_gen)
-  best_gr_mat <- build_best_matrix("GR", best_gr, rank_gr)
-
-  .Object@resultados_analisis$diversity_best_gen_table <- best_gen
-  .Object@resultados_analisis$diversity_best_gr_table  <- best_gr_mat
-
-  .Object@graficos$diversity_best_gen_plot <- plot_best_boxplot(best_gen, "Relative Fitness (Top-k, NGen)")
-  .Object@graficos$diversity_best_gr_plot  <- plot_best_boxplot(best_gr_mat, "Relative Fitness (Top-k, GR)")
 
   .Object
 })
