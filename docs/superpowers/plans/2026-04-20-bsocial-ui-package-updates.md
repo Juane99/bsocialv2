@@ -50,11 +50,11 @@ Expected: All tests pass (11 test files). If any test fails, **stop** and fix th
 
 - [ ] **Step 1: Write the failing test**
 
-Create `tests/testthat/test-plot-processed-curves.R`:
+Create `tests/testthat/test-plot-processed-curves.R` (note: `plot_processed_curves` requires `@resultados_analisis$mean_growth_data`, which is only populated by `transform_raw_data` — use the raw fixture):
 ```r
 test_that("plot_processed_curves uses a log10 y-axis", {
-  obj <- create_curated_test_object()
-  obj <- transform_curated_data(obj)
+  obj <- create_raw_test_object()
+  obj <- transform_raw_data(obj, groups = NULL, bg_type = "threshold", bg_param = 0.1)
   p <- plot_processed_curves(obj)
 
   expect_s3_class(p, "ggplot")
