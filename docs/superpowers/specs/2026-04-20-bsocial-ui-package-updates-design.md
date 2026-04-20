@@ -26,7 +26,7 @@ Apply six user-requested improvements that span both the R package and its Shiny
 
 **Separate analysis from rendering for the scatter.** Today `analyze_growth()` both computes top-10 tables and produces the scatter plot, caching it in `@graficos$growth_scatter`. To make the UI checkbox reactive without re-running the analysis, we move plot generation to a new exported function `plot_growth_scatter()` that takes the object and a flag. `analyze_growth()` still populates the cached slot by calling the new function with `remove_outliers = FALSE` — backward compatible.
 
-**Badge inside the package, not the app.** The cooperator/cheater/neutral classification lives in `summarize_social_behavior()`. Adding the badge inside `analyze_social_behavior()` (after `summarize_social_behavior()` has run) keeps the plot self-contained: the app renders whatever ggplot the package returns, as today.
+**Badge inside the package, not the app.** The cooperator/cheater/neutral classification lives in `summarize_social_behavior()`. Since the pipeline runs `analyze_social_behavior()` *before* `summarize_social_behavior()`, the cleanest place to attach the badges is at the tail of `summarize_social_behavior()`: classification is already computed there, so the function rebuilds the two social plots with the badges and overwrites `@resultados_analisis$social_behavior$social_generations_plot` / `social_gr_plot`. The ggplot helper that draws the faceted boxplot is extracted from `analyze_social_behavior()` to file scope so both callers can reuse it.
 
 **Per-metric classification.** A strain may be cooperator by NGen and neutral by GR. The package already treats these as separate analyses (`summary_gen` vs `summary_gr`). Badges and stats tables follow that split.
 
@@ -91,15 +91,13 @@ Stored tables:
 .Object@resultados_analisis$stats_gr <- <same shape computed from data_gr>
 ```
 
-The `classification` column is computed by flipping the existing `summary_gen$positives`/`negatives`/`neutrals` lists into per-strain labels. No change to the function signature, no change to existing stored fields — pure addition.
+The `classification` column is computed by flipping the existing `summary_gen$positives`/`negatives`/`neutrals` lists into per-strain labels. No change to the function signature.
 
-### 4. `R/analyze-social-behavior.R` — badges below each facet
+In addition — and with `stats_gen` / `stats_gr` freshly available — the tail of `summarize_social_behavior()` calls the extracted `generate_social_plot()` helper with `stats_tbl = stats_gen` / `stats_gr` and overwrites `@resultados_analisis$social_behavior$social_generations_plot` / `social_gr_plot` with the badge-annotated versions. This is the moment badges appear in the pipeline.
 
-After each ggplot is built (the NGen and GR boxplots), attach a small `geom_text` layer drawing the classification at `y = -Inf, vjust = 1.8` per strain facet:
+### 4. `R/analyze-social-behavior.R` — extract plot helper
 
-- Data source: classification vectors already stored by `summarize_social_behavior()` (must have run first; if missing, skip the annotation — do not error).
-- Color palette (explicit to avoid viridis confusion): `Cooperator = "#2e7d32"`, `Cheater = "#c62828"`, `Neutral = "#616161"`.
-- Wrap the plot in `ggplot2::coord_cartesian(clip = "off")` and add bottom margin via `theme(plot.margin = margin(5, 5, 25, 5))` so the badge is not clipped.
+Lift the existing inner `generate_social_plot()` out of the method body to file scope, and give it an optional `stats_tbl = NULL` parameter. When `stats_tbl` is non-NULL, the helper appends a `geom_text` badge layer at `y = -Inf, vjust = 1.8` per strain facet, with explicit color palette (`Cooperator = "#2e7d32"`, `Cheater = "#c62828"`, `Neutral = "#616161"`), wrapped in `coord_cartesian(clip = "off")` and `theme(plot.margin = margin(5, 5, 25, 5))` so badges are not clipped. `analyze_social_behavior()` itself keeps passing `stats_tbl = NULL` — badges come later, from `summarize_social_behavior()`.
 
 ### 5. `R/analyze-diversity.R` — remove Top-k path + rename axis
 
