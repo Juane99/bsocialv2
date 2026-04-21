@@ -9,12 +9,14 @@
 #'   fall above the Q3 + coef * IQR threshold (Tukey boxplot rule).
 #' @param outlier_coef Numeric multiplier for the IQR rule (default 1.5).
 #' @return A ggplot2 object.
+#' @importFrom stats quantile
 #' @export
 setGeneric("plot_growth_scatter", function(.Object, remove_outliers = FALSE, outlier_coef = 1.5) {
   standardGeneric("plot_growth_scatter")
 })
 
 #' @rdname plot_growth_scatter
+#' @export
 setMethod("plot_growth_scatter", "bsocial", function(.Object, remove_outliers = FALSE, outlier_coef = 1.5) {
   df <- .Object@datos_procesados
   if (is.null(df) || nrow(df) == 0) {
