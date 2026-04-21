@@ -12,7 +12,7 @@ analyze_diversity(.Object)
 \value{
 The modified \linkS4class{bsocial} object with diversity boxplots in
 \code{graficos} and relative fitness tables in \code{resultados_analisis}
-(keyed by diversity level and top-k strain ranking).
+(keyed by diversity level).
 }
 \description{
 Analyze Diversity Effect on Fitness

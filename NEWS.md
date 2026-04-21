@@ -1,3 +1,31 @@
+# bsocialv2 0.2.0
+
+## Breaking changes
+
+* `analyze_diversity()` no longer produces `diversity_best_gen_plot`,
+  `diversity_best_gr_plot`, `diversity_best_gen_table`,
+  `diversity_best_gr_table`. The Top-k strains ranking path has been
+  removed; use the per-diversity-level plots instead.
+
+## New features
+
+* New exported function `plot_growth_scatter(.Object, remove_outliers, outlier_coef)`
+  renders the LogPhase-vs-NGen scatter on demand. When `remove_outliers = TRUE`,
+  points above the Tukey IQR threshold in either axis are hidden and a subtitle
+  reports the hidden count.
+* `plot_processed_curves()` now draws the y-axis on a log10 scale with fine
+  breaks. Non-positive OD values are dropped (consistent with the log transform).
+* Per-strain cooperator/cheater/neutral badges are drawn below each facet in
+  the plots produced by `analyze_social_behavior()` when
+  `summarize_social_behavior()` has run.
+* `summarize_social_behavior()` now stores `stats_gen` and `stats_gr` data frames
+  in `@resultados_analisis`, containing per-strain medians, pairwise t-test
+  p-values, and classification label.
+
+## Minor improvements
+
+* `analyze_diversity()` x-axis label changed to "Species richness in consortium".
+
 # bsocialv2 0.1.0
 
 * Initial CRAN release.

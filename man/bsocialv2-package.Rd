@@ -6,7 +6,7 @@
 \alias{bsocialv2-package}
 \title{bsocialv2: Analysis of Microbial Social Behavior in Bacterial Consortia}
 \description{
-Provides an S4 class and methods for analyzing microbial social behavior in bacterial consortia. Includes growth parameter extraction, social behavior classification (cooperators/cheaters/neutrals), diversity effect analysis, consortium assembly path finding, and stability analysis via coefficient of variation.
+Provides an S4 class and methods for analyzing microbial social behavior in bacterial consortia. Includes growth parameter extraction, social behavior classification (cooperators/cheaters/neutrals), diversity effect analysis, consortium assembly path finding, and stability analysis via coefficient of variation. Methods are described in Purswani et al. (2017) \doi{10.3389/fmicb.2017.00919}.
 }
 \seealso{
 Useful links:

@@ -4,7 +4,12 @@
 #' based on its effect on consortium fitness.
 #'
 #' @param .Object A \linkS4class{bsocial} object after \code{analyze_social_behavior()} has been called.
-#' @return The modified \linkS4class{bsocial} object with \code{resultados_analisis$summary_gen} and \code{$summary_gr}.
+#' @return The modified \linkS4class{bsocial} object. Writes
+#'   \code{resultados_analisis$summary_gen} and \code{$summary_gr} (lists with
+#'   positives/negatives/neutrals), \code{resultados_analisis$stats_gen} and
+#'   \code{$stats_gr} (per-strain medians, pairwise p-values, and classification
+#'   string), and rebuilds the classification-annotated plots inside
+#'   \code{resultados_analisis$social_behavior}.
 #'
 #' @export
 setMethod("summarize_social_behavior", "bsocial", function(.Object) {

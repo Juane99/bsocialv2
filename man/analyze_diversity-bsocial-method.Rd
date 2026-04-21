@@ -14,6 +14,6 @@ The modified \linkS4class{bsocial} object with diversity analysis in \code{grafi
 }
 \description{
 Analyzes the relationship between consortium diversity (number of strains)
-and fitness. Compares fitness across diversity levels and identifies effects
-of including top-ranked strains.
+and fitness. Computes relative fitness by comparing each consortium's metric
+against the best monoculture reference.
 }

@@ -1,6 +1,6 @@
 Package: bsocialv2
 Title: Analysis of Microbial Social Behavior in Bacterial Consortia
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: c(
     person("Maria", "Garcia Toledo", role = c("aut")),
     person("Juan Emilio", "Martinez Manjon", role = c("aut", "cre"), email = "juanemartinez999@hotmail.com"),
