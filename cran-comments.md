@@ -1,3 +1,11 @@
+## Resubmission
+
+This is a resubmission of 0.2.0. The previous tarball contained a
+helper script `_submit.R` at the package root, written automatically
+by `devtools::submit_cran()` during upload. CRAN's pretest correctly
+flagged this as a non-standard top-level file. The script is now
+listed in `.Rbuildignore` so `R CMD build` no longer picks it up.
+
 ## Update submission
 
 This is an update from 0.1.0 → 0.2.0. Highlights (full list in NEWS.md):
@@ -14,7 +22,10 @@ This is an update from 0.1.0 → 0.2.0. Highlights (full list in NEWS.md):
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes on a clean CRAN-like environment.
+After adding `_submit.R` to `.Rbuildignore`, the top-level NOTE flagged
+in the previous pretest is resolved. The package otherwise passes
+`R CMD check --as-cran` with 0 errors | 0 warnings | 0 notes on a
+clean CRAN-like environment.
 
 Local check on Windows 11 (R 4.1.2) reports 1 WARNING ("qpdf is needed
 for checks on size reduction of PDFs") and 1 NOTE ("unable to verify
