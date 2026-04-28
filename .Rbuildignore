@@ -8,6 +8,7 @@
 ^CRAN-SUBMISSION$
 ^submit_cran\.R$
 ^_submit\.R$
+^\.cran_submit\.R$
 ^\.claude$
 ^\.idea$
 ^\.superpowers$
